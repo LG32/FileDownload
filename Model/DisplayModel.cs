@@ -8,30 +8,30 @@ namespace FileDownloader.Model
         /// <summary>
         /// 文件下载进度值
         /// </summary>
-        public double ProgressVal
+        private double ProgressVal
         {
-            get { return _progressVal; }
-            set { this.SetProperty(ref _progressVal, value); }
+            get => _progressVal;
+            set => this.SetProperty(ref _progressVal, value);
         }
 
         private string _dispalySize;
         /// <summary>
         /// 文件显示大小
         /// </summary>
-        public string DisplaySize
+        private string DisplaySize
         {
-            get { return _dispalySize; }
-            set { SetProperty(ref this._dispalySize, value); }
+            get => _dispalySize;
+            set => SetProperty(ref this._dispalySize, value);
         }
 
         private string _remainTime;
         /// <summary>
         /// 文件剩余下载时间
         /// </summary>
-        public string RemainTime
+        private string RemainTime
         {
-            get { return _remainTime; }
-            set { SetProperty(ref this._remainTime, value); }
+            get => _remainTime;
+            set => SetProperty(ref this._remainTime, value);
         }
 
         private string _curSpeed;
@@ -44,15 +44,10 @@ namespace FileDownloader.Model
             set { SetProperty(ref this._curSpeed, value); }
         }
 
-        private long _beforeSize;
         /// <summary>
         /// 前一次更新时已下载文件的大小
         /// </summary>
-        public long BeforeSize
-        {
-            get { return _beforeSize; }
-            set { _beforeSize = value; }
-        }
+        private long BeforeSize { get; set; }
 
         /// <summary>
         /// 将进度条数据更新

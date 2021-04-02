@@ -2,7 +2,11 @@
 using FileDownloader.Tools;
 using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Forms;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace FileDownloader
 {
@@ -12,18 +16,26 @@ namespace FileDownloader
     public partial class MainWindow : Window
     {
         public DownloadInfo DownloadInfo { get; set; }
-        public DisplayModel dispalyModel = null;
-        public System.Timers.Timer UpdateProgressTimer;
-        public System.Timers.Timer UpdateSpeedTimer;
+        private readonly DisplayModel _dispalyModel = null;
+        private System.Timers.Timer _updateProgressTimer;
+        private System.Timers.Timer _updateSpeedTimer;
 
         public MainWindow()
         {
             InitializeComponent();
-            dispalyModel = new DisplayModel();
-            this.DataContext = dispalyModel;
+            _dispalyModel = new DisplayModel();
+            this.DataContext = _dispalyModel;
+            // this.BackgroundImage = Image.FromFile(@"图片路径");
+
+            ImageBrush b = new ImageBrush();
+            var img = new Uri("pack://application:,,,/Image/banner.png");
+            var imageSource = new BitmapImage(img);
+            b.ImageSource = imageSource;
+            b.Stretch = Stretch.Fill;
+            this.Background = b;
             // this.UrlTextBox.Text = @"http://ucan.25pp.com/Wandoujia_web_seo_baidu_homepage.apk";
         }
-
+        
         /// <summary>
         /// 初始化定时器等
         /// </summary>
@@ -31,19 +43,19 @@ namespace FileDownloader
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            UpdateProgressTimer = new System.Timers.Timer()
+            _updateProgressTimer = new System.Timers.Timer()
             {
                 Interval = 20
             };
-            UpdateSpeedTimer = new System.Timers.Timer()
+            _updateSpeedTimer = new System.Timers.Timer()
             {
                 Interval = 1000
             };
-            UpdateProgressTimer.Elapsed += UpdateProgressTimer_Elapsed;
-            UpdateProgressTimer.Start();
+            _updateProgressTimer.Elapsed += UpdateProgressTimer_Elapsed;
+            _updateProgressTimer.Start();
 
-            UpdateSpeedTimer.Elapsed += UpdateSpeedTimer_Elapsed;
-            UpdateSpeedTimer.Start();
+            _updateSpeedTimer.Elapsed += UpdateSpeedTimer_Elapsed;
+            _updateSpeedTimer.Start();
         }
 
         /// <summary>
@@ -54,7 +66,7 @@ namespace FileDownloader
         private void UpdateSpeedTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             if (Helper.downloadInfo == null) return;
-            this.dispalyModel.UpdateSpeed();
+            this._dispalyModel.UpdateSpeed();
         }
         /// <summary>
         /// 更新进度信息
@@ -64,14 +76,14 @@ namespace FileDownloader
         private void UpdateProgressTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             if (Helper.downloadInfo == null) return;
-            this.dispalyModel.UpdateProgress();
+            this._dispalyModel.UpdateProgress();
         }
 
         private async void DownloadBtn_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                string url = this.UrlTextBox.Text.Trim();
+                var url = this.UrlTextBox.Text.Trim();
                 if (!Helper.IsURL(url))
                 {
                     System.Windows.MessageBox.Show("输入的URL不合法，请重新输入！");
@@ -84,7 +96,7 @@ namespace FileDownloader
                 {
                     return;
                 }
-                string path = SelectFolder();
+                var path = SelectFolder();
                 if (string.IsNullOrEmpty(path))
                     return;
 
@@ -107,14 +119,21 @@ namespace FileDownloader
         /// <returns></returns>
         private string SelectFolder()
         {
-            FolderBrowserDialog m_Dialog = new FolderBrowserDialog();
+            var mDialog = new FolderBrowserDialog();
 
-            var result = m_Dialog.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.Cancel)
-                return null;
-            return m_Dialog.SelectedPath.Trim();
+            var result = mDialog.ShowDialog();
+            return result == System.Windows.Forms.DialogResult.Cancel ? null : mDialog.SelectedPath.Trim();
         }
 
-        
+
+        private void DrawWindow(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
+
+        public void CloseWindow(object sender, RoutedEventArgs args)
+        {
+            this.Close();
+        }
     }
 }

@@ -28,3 +28,6 @@ E:\download\FileDownloader-master\FileDownloader\FileDownloader\obj\Debug\FileDo
 E:\download\FileDownloader-master\FileDownloader\FileDownloader\obj\Debug\FileDownloader.csproj.CoreCompileInputs.cache
 E:\download\FileDownloader-master\FileDownloader\FileDownloader\obj\Debug\FileDownloader.exe
 E:\download\FileDownloader-master\FileDownloader\FileDownloader\obj\Debug\FileDownloader.pdb
+E:\download\FileDownloader-master\FileDownloader\FileDownloader\obj\Debug\FileDownloader_Content.g.cs
+E:\download\FileDownloader-master\FileDownloader\FileDownloader\obj\Debug\XamlControlsResources.baml
+E:\download\FileDownloader-master\FileDownloader\FileDownloader\obj\Debug\XamlControlsResources.g.cs
