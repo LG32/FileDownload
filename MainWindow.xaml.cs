@@ -30,8 +30,8 @@ namespace FileDownloader
             this.DataContext = _dispalyModel;
 
             ImageBrush b = new ImageBrush();
-            var img = new Uri("pack://application:,,,/Image/banner.png");
-            var imageSource = new BitmapImage(img);
+            var bitmap = Properties.Resources.banner;
+            var imageSource = BitmapToBitmapImage(bitmap);
             b.ImageSource = imageSource;
             b.Stretch = Stretch.Fill;
             this.Background = b;
@@ -148,6 +148,21 @@ namespace FileDownloader
         public void CloseWindow(object sender, RoutedEventArgs args)
         {
             this.Close();
+        }
+        
+        private BitmapImage BitmapToBitmapImage(System.Drawing.Bitmap bitmap)
+        {
+            BitmapImage bitmapImage = new BitmapImage();
+            using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
+            {
+                bitmap.Save(ms, bitmap.RawFormat);
+                bitmapImage.BeginInit();
+                bitmapImage.StreamSource = ms;
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.EndInit();
+                bitmapImage.Freeze();
+            }
+            return bitmapImage;
         }
     }
 }
