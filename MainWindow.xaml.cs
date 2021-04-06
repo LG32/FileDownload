@@ -20,12 +20,14 @@ namespace FileDownloader
         private System.Timers.Timer _updateProgressTimer;
         private System.Timers.Timer _updateSpeedTimer;
 
+        private string url =
+            "https://download-cf.jetbrains.com/objc/AppCode-2020.3.4.dmg";
+
         public MainWindow()
         {
             InitializeComponent();
             _dispalyModel = new DisplayModel();
             this.DataContext = _dispalyModel;
-            // this.BackgroundImage = Image.FromFile(@"图片路径");
 
             ImageBrush b = new ImageBrush();
             var img = new Uri("pack://application:,,,/Image/banner.png");
@@ -33,7 +35,6 @@ namespace FileDownloader
             b.ImageSource = imageSource;
             b.Stretch = Stretch.Fill;
             this.Background = b;
-            // this.UrlTextBox.Text = @"http://ucan.25pp.com/Wandoujia_web_seo_baidu_homepage.apk";
         }
         
         /// <summary>
@@ -45,11 +46,11 @@ namespace FileDownloader
         {
             _updateProgressTimer = new System.Timers.Timer()
             {
-                Interval = 20
+                Interval = 200
             };
             _updateSpeedTimer = new System.Timers.Timer()
             {
-                Interval = 1000
+                Interval = 500
             };
             _updateProgressTimer.Elapsed += UpdateProgressTimer_Elapsed;
             _updateProgressTimer.Start();
@@ -58,6 +59,16 @@ namespace FileDownloader
             _updateSpeedTimer.Start();
         }
 
+        /// <summary>
+        /// 界面初始化完成后逻辑
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainWindow_OnContentRendered(object sender, EventArgs e)
+        {
+            Start_Download();
+        }
+        
         /// <summary>
         /// 更新速度信息
         /// </summary>
@@ -79,16 +90,13 @@ namespace FileDownloader
             this._dispalyModel.UpdateProgress();
         }
 
-        private async void DownloadBtn_Click(object sender, RoutedEventArgs e)
+        private async void Start_Download()
         {
             try
             {
-                var url = this.UrlTextBox.Text.Trim();
                 if (!Helper.IsURL(url))
                 {
                     System.Windows.MessageBox.Show("输入的URL不合法，请重新输入！");
-                    this.UrlTextBox.Text = string.Empty;
-                    this.UrlTextBox.Focus();
                     return;
                 }
 
@@ -122,6 +130,12 @@ namespace FileDownloader
             var mDialog = new FolderBrowserDialog();
 
             var result = mDialog.ShowDialog();
+            var processModule = System.Diagnostics.Process.GetCurrentProcess().MainModule;
+            if (processModule != null)
+            {
+                string path = processModule.FileName;
+            }
+
             return result == System.Windows.Forms.DialogResult.Cancel ? null : mDialog.SelectedPath.Trim();
         }
 

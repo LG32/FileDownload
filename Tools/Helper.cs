@@ -18,7 +18,7 @@ namespace FileDownloader.Tools
         {
             UpdateDownInfoTimer = new System.Timers.Timer
             {
-                Interval = 500
+                Interval = 2000
             };
             UpdateDownInfoTimer.Elapsed += UpdateDownInfoTimer_Elapsed;
             UpdateDownInfoTimer.Start();
@@ -143,7 +143,7 @@ namespace FileDownloader.Tools
                 }
                 catch (WebException ex)
                 {
-                    throw new Exception("网络错误！");
+                    throw new Exception("网络错误！", ex);
                 }
                 catch 
                 {
@@ -191,7 +191,7 @@ namespace FileDownloader.Tools
         {
             int blockSize = (int)(downloadInfo.FileSize / downloadInfo.ThreadNum);
             int remainSize = (int)(downloadInfo.FileSize % downloadInfo.ThreadNum);
-            for (int i = 0; i < downloadInfo.ThreadNum; ++i)
+            for (int i = 0; i < downloadInfo.ThreadNum; i++)
             {
                 downloadInfo.FileBlocks.Add(
                     new FileBlock(i,
@@ -215,15 +215,15 @@ namespace FileDownloader.Tools
                 using (MemoryStream ms = new MemoryStream())
                 {
                     serializer.WriteObject(ms, downloadInfo);
-                    string jsonString = string.Empty;
-                    using (StreamReader reader = new StreamReader(ms))
+                    string jsonString;
+                    using (var reader = new StreamReader(ms))
                     {
                         ms.Seek(0, SeekOrigin.Begin);
                         jsonString = reader.ReadToEnd();
                     }
-                    using (FileStream fs = new FileStream(downloadInfo.SavePath, FileMode.OpenOrCreate))
+                    using (var fs = new FileStream(downloadInfo.SavePath, FileMode.OpenOrCreate))
                     {
-                        using (StreamWriter writer = new StreamWriter(fs))
+                        using (var writer = new StreamWriter(fs))
                         {
                             fs.Seek(0, SeekOrigin.Begin);
                             writer.Write(jsonString);

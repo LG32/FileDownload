@@ -8,30 +8,30 @@ namespace FileDownloader.Model
         /// <summary>
         /// 文件下载进度值
         /// </summary>
-        private double ProgressVal
+        public double ProgressVal
         {
-            get => _progressVal;
-            set => this.SetProperty(ref _progressVal, value);
+            get { return _progressVal; }
+            set { this.SetProperty(ref _progressVal, value); }
         }
 
         private string _dispalySize;
         /// <summary>
         /// 文件显示大小
         /// </summary>
-        private string DisplaySize
+        public string DisplaySize
         {
-            get => _dispalySize;
-            set => SetProperty(ref this._dispalySize, value);
+            get { return _dispalySize; }
+            set { SetProperty(ref this._dispalySize, value); }
         }
 
         private string _remainTime;
         /// <summary>
         /// 文件剩余下载时间
         /// </summary>
-        private string RemainTime
+        public string RemainTime
         {
-            get => _remainTime;
-            set => SetProperty(ref this._remainTime, value);
+            get { return "剩余时间：" + _remainTime; }
+            set { SetProperty(ref this._remainTime, value); }
         }
 
         private string _curSpeed;
@@ -40,14 +40,19 @@ namespace FileDownloader.Model
         /// </summary>
         public string CurSpeed
         {
-            get { return _curSpeed; }
+            get { return "下载速度：" + _curSpeed; }
             set { SetProperty(ref this._curSpeed, value); }
         }
 
+        private long _beforeSize;
         /// <summary>
         /// 前一次更新时已下载文件的大小
         /// </summary>
-        private long BeforeSize { get; set; }
+        public long BeforeSize
+        {
+            get { return _beforeSize; }
+            set { _beforeSize = value; }
+        }
 
         /// <summary>
         /// 将进度条数据更新
@@ -56,7 +61,7 @@ namespace FileDownloader.Model
         {
             this.ProgressVal = Helper.GetProgress();
             
-            this.DisplaySize = (Helper.downloadInfo.DownloadSize / (1024.0 * 1024.0)).ToString("f2") 
+            this.DisplaySize = "下载进度：" + (Helper.downloadInfo.DownloadSize / (1024.0 * 1024.0)).ToString("f2") 
                                 + "/" + Helper.GetDisplaySize() + "M";
             
         }

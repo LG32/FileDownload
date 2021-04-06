@@ -48,7 +48,7 @@ namespace FileDownloader.Model
         /// </summary>
         public string SavePath
         {
-            get => Path.Combine(DicPath, FileName + ".tmp.downloadinfo");
+            get => Path.Combine(DicPath, FileName);
         }
         /// <summary>
         /// 文件夹路径
@@ -72,8 +72,7 @@ namespace FileDownloader.Model
         {
             get
             {
-                return FileSize > 100 * 1024 * 1024 ? 5 : 
-                                    FileSize < 5 * 1024 * 1024 ? 1 : 3;
+                return 1;
             }
             // set => _threadNum = value;
         }

@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
         xmlns:local="clr-namespace:FileDownloader"
         mc:Ignorable="d"
         Title="FileDownloader" Height="860" Width="1500"
@@ -11,47 +10,42 @@
         Background="{x:Null}"
         AllowsTransparency="True"
         MouseLeftButtonDown="DrawWindow"
-        Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
+        Loaded="Window_Loaded" WindowStartupLocation="CenterScreen"
+        ContentRendered="MainWindow_OnContentRendered">
     
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="40"/>
-            <ColumnDefinition Width="60"/>
             <ColumnDefinition />
             <ColumnDefinition />
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
             <ColumnDefinition />
-            <ColumnDefinition Width="40"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition />
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="10"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition />
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="1" Grid.Column="1" Text="URL:" 
-                   HorizontalAlignment="Center" VerticalAlignment="Center" 
-                   FontSize="16"/>
-        <TextBox Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3" x:Name="UrlTextBox" 
-                 VerticalAlignment="Center" Height="25"/>
-        <ProgressBar Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3"
-                     x:Name="Progress" Height="25" Maximum="1000" 
-                     Visibility="Collapsed"
-                      Value="{Binding ProgressVal}"/>
-        <TextBlock Grid.Row="3" Grid.Column="2"
+        <TextBlock Grid.Row="5" Grid.Column="3"
                    x:Name="RemainTimeTxt" Text="{Binding RemainTime}" />
-        <TextBlock Grid.Row="3" Grid.Column="3"
+        <TextBlock Grid.Row="5" Grid.Column="4"
                    x:Name="SpeedTxt" Text="{Binding CurSpeed}" HorizontalAlignment="Center"/>
-        <TextBlock Grid.Row="3" Grid.Column="4" HorizontalAlignment="Right"
+        <TextBlock Grid.Row="5" Grid.Column="5" HorizontalAlignment="Right"
                    x:Name="DispalySizeTxt" Text="{Binding DisplaySize}" />
 
+        <ProgressBar Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3"
+                     x:Name="Progress" Height="25" Width="800" Maximum="1000" 
+                     Visibility="Collapsed"
+                      Value="{Binding ProgressVal}"/>
+        
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="6">
-            <Button x:Name="DownloadBtn" Content="下载" VerticalAlignment="Top" 
-                Width="100" Height="30"  Click="DownloadBtn_Click"/>
-            <!-- <CheckBox VerticalAlignment="Center" /> -->
             <TextBlock />
         </StackPanel>
         
