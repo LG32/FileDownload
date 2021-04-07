@@ -127,16 +127,8 @@ namespace FileDownloader
         /// <returns></returns>
         private string SelectFolder()
         {
-            var mDialog = new FolderBrowserDialog();
-
-            var result = mDialog.ShowDialog();
-            var processModule = System.Diagnostics.Process.GetCurrentProcess().MainModule;
-            if (processModule != null)
-            {
-                string path = processModule.FileName;
-            }
-
-            return result == System.Windows.Forms.DialogResult.Cancel ? null : mDialog.SelectedPath.Trim();
+            var path = Environment.CurrentDirectory;
+            return path;
         }
 
 
